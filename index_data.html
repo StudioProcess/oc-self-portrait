@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>oc-font</title>
+  <style>
+    body { word-wrap: break-word; font-family: monospace; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  
+  <!-- <a href="https://www.pcjs.org/devices/pc8080/rom/vt100/" target="_blank">https://www.pcjs.org/devices/pc8080/rom/vt100/</a><br> -->
+  <script type="module">
+  // This script produces a base64 string of the rom data, suitable for inline use.
+  
+    async function load() {
+      return fetch('/data/23-018E2.json')
+        .then(res => res.text())
+        // .then(text => { rom = text; console.log(text); return text; })
+        .then(text => text.replace(/\/\/.*/g, '')) // remove comments
+        .then(text => text.replace(/0x[0-9a-fA-F]*/g, x => parseInt(x,16))) // convert hex literals to decimals
+        .then(text => JSON.parse(text))
+        .then(data => data.bytes);
+    }
+
+    function encode(bytes) {
+      let s = "";
+      for (let b of bytes) {
+        s += String.fromCharCode(b);
+      }
+      return btoa(s);
+    }
+
+    function decode(str) {
+      str = atob(str);
+      let d = [];
+      for (let char of str) {
+        d.push( char.charCodeAt(0) );
+      }
+      return d;
+    }
+
+    function wrap(str, len = 128) {
+      let blocks = [];
+      for (let i=0; i<Math.ceil(str.length / len); i++) {
+        blocks.push( str.substr(i*len, len) );
+      }
+      return "'" + blocks.join("' +\n'") + "';";
+    }
+
+
+    (async function main() {
+      let bytes = await load();
+      console.log(bytes);
+      
+      let b64 = encode(bytes);
+      console.log(b64);
+      console.log(b64.length);
+      document.querySelector('body').textContent = wrap(b64);
+      
+      let b = decode(b64);
+      console.log(b);
+    })();
+  </script>
+  
+  
+</body>
+</html>

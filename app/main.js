@@ -53,7 +53,7 @@ function getCharData(charCode, dot_replication = false, dot_stretching = false) 
     else { out.push(0, 0); }
     pbit = 0;
   }
-  console.log(out);
+  // console.log(out);
   return out;
 }
 
@@ -116,8 +116,8 @@ function drawText(text, ox, oy, height = 10, aspect = 1, spacing = 0, dot_replic
   console.log(src);
   
   let canvas = document.querySelector('canvas');
-  canvas.width = 4200;
-  canvas.height = 2200;
+  canvas.width = 2000;
+  canvas.height = 2000;
   ctx = canvas.getContext('2d');
   ctx.fillStyle = 'white';
   
@@ -131,5 +131,5 @@ function drawText(text, ox, oy, height = 10, aspect = 1, spacing = 0, dot_replic
   // }
   
   // drawText(rom, 100, 100, size, 0.5);
-  drawText(src, 1500, 300, size, 0.5);
+  drawText(src, 0, 0, 20, 0.66, false, true);
 })();
