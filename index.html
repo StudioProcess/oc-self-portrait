@@ -123,7 +123,7 @@
       let canvas = document.querySelector('canvas');
       canvas.width = 4000;
       canvas.height = canvas.width * 23/16.5;
-      ctx = canvas.getContext('2d');
+      ctx = canvas.getContext('2d'); ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height);
       drawText(src, 150, 120, 40, 0.66, false, true);
     })();
   </script>
