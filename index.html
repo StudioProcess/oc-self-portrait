@@ -48,11 +48,11 @@
       let offset = charCode * 16;
       // return bytes.slice( offset, offset + 10 );
       // Perform a -1 shift (first line is at offset+16, second at offset, third at offset+1, ... )
-      return [bytes[offset+15]].concat( bytes.slice( offset, offset + 9 ) );
+      return( [bytes[offset+15]].concat( bytes.slice( offset, offset + 9 ) )); // added parens here to make line break possible
     }
 
     function bytesToBinary(bytes) {
-      return bytes.reduce( (acc, octet) => {
+      return bytes.reduce( (acc, octet)=> { // no space before '=>' to avoid line break
         for (let i=7; i>=0; i--) {
           acc.push( (octet >> i) & 1 ); // NOTE: pushes bits MSB first
         }
