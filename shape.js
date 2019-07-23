@@ -1,6 +1,12 @@
-const width = 80;
+const width = 100;
 const inname = 'index.in.html'
 const outname = 'index.rect.html';
+
+// window position
+const window_top    = 20;
+const window_width  = 50;
+const window_height = 30;
+
 
 let fs = require('fs');
 
@@ -142,11 +148,24 @@ function splitString(str, len) {
 
 
 let lines = [];
-let line;
+let line, fitted;
 let idx = 1;
 do {
-  line = clipoffline(text, width);
-  let fitted = stretch(line.line, width);
+  if (idx > window_top && idx < window_top + window_height) {
+    // windowed line
+    let left  = Math.floor( (width - window_width) / 2 ) - 3;
+    let right = width - window_width - left - 6 ;
+    let clip_left  = clipoffline(text, left);
+    let clip_right = clipoffline(clip_left.rest, right);
+    fitted = stretch(clip_left.line, left) + ' /*' + ' '.repeat(window_width) + '*/ ' + stretch(clip_right.line, right);
+    line = clip_right;
+    line.length = clip_left.length + clip_right.length;
+  } else {
+    // normal line
+    line = clipoffline(text, width);
+    fitted = stretch(line.line, width);
+  }
+  
   lines.push( fitted );
   console.log(`${(''+idx).padStart(3,0)} (${(''+line.length).padStart(3,0)}): ${fitted}`);
   idx++;

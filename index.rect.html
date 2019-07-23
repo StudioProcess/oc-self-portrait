@@ -1,70 +1,74 @@
-<!DOCTYPE    html>    <html    lang="en">    <head>    <meta    charset="UTF-8">
-<title>oc-selfie</title> <style>  html,  body  { margin:0;  padding:0; } body  {
-display:flex;    align-items:center;    justify-content:center;    height:100vh;
-background-color:black;   }  canvas   {   width:auto   !important;  height:100vh
-!important;  background-color:white;   image-rendering:pixelated;   }   </style>
-</head>      <body>       <script      type="module">       let       rom      =
-'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'+
-'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='   ;   let  src,  bytes,   ctx;  function
-decode(str) { str = atob(str); let d =  [];  for  (let char  of  str)  { d.push(
-char.charCodeAt(0) ); } return( d ); } function getCharDataBytes(charCode) { let
-offset = charCode  * 16; return( [bytes[offset+15]].concat( bytes.slice( offset,
-offset +  9 )  ) ); } function bytesToBinary(bytes) { return bytes.reduce( (acc,
-octet)=> { for (let  i=7; i>=0; i--) { acc.push( (octet >>  i) & 1 );  } return(
-acc   );   },  []);   }  function   getRawCharData(charCode)   {   let  bytes  =
-getCharDataBytes(charCode);  return(  bytesToBinary(  bytes   )  );  }  function
-getCharData(charCode,  dot_replication=false, dot_stretching=false) { let  raw =
-getRawCharData(charCode); let out = []; let pbit = 0; for (let j=0; j<10; j++) {
-for (let i=0; i<8;  i++) { let bit  = raw[j*8+i]; if (dot_stretching && pbit)  {
-out.push(1);  } else { out.push(bit);  } pbit = bit;  } if  (dot_replication  &&
-pbit) { out.push(1, 1); } else { out.push(0, 0); } pbit = 0;  } return( out ); }
-function   drawChar(charCode,    x,    y,    height=10,   aspect=1,   spacing=0,
-dot_replication=false, dot_stretching=false)  { let  ch  = getCharData(charCode,
-dot_replication, dot_stretching); for (let j=0; j<10; j++) { for (let i=0; i<10;
-i++) {  if  (  ch[j*10+i]  )  { ctx.fillStyle =  'royalblue';  ctx.fillRect( x +
-i*height/10*aspect    *   (1+spacing),   y   +    j*height/10   *   (1+spacing),
-height/10*aspect, height/10); } } } } function drawText(text, ox, oy, height=10,
-aspect=1, spacing=0, dot_replication=false, dot_stretching=false) {  let x =  0;
-let y = 0; for (let i=0; i<text.length; i++) { let ch = text.charCodeAt(i); if (
-ch  === 10  ) { x=0;  y++; continue;  }  drawChar(  ch,  ox + x*height*aspect  *
-(1+spacing),   oy  +   y*height   *   (1+spacing),  height,   aspect,   spacing,
-dot_replication,  dot_stretching); x++;  } } (async function  main() {  bytes  =
-decode(rom); src = await fetch('./index.rect.html').then(res => res.text()); let
-canvas = document.querySelector('canvas'); canvas.width = 4000; canvas.height  =
-canvas.width * 23/16.5;  ctx = canvas.getContext('2d'); ctx.fillStyle = 'white';
-ctx.fillRect(0,  0,  canvas.width, canvas.height); drawText(src,  150, 120,  40,
-0.66,  false,   true);   })();  </script>   <canvas></canvas>  </body>   </html>
+<!DOCTYPE  html> <html lang="en">  <head>  <meta  charset="UTF-8"> <title>oc-selfie</title>  <style>
+html, body { margin:0; padding:0; } body { display:flex; align-items:center; justify-content:center;
+height:100vh; background-color:black; }  canvas  { width:auto  !important; height:100vh  !important;
+background-color:white; image-rendering:pixelated; } </style> </head> <body>  <script type="module">
+let                                               rom                                              =
+'AAAAAAAAAAAAAAAAAAAAABA4fP58OBAAAAAAAAAAAACSRJJEkkSSAAAAAAAAAAAAiIj4iIg+CAgIAAAAAAAAAPCA4ICeEBwQE'+
+'AAAAAAAAAB4gIB4PCI8IiIAAAAAAAAAgICA+D4gPCAgAAAAAAAAADhERDgAAAAAAAAAAAAAAAAAEBD+EBD+AAAAAAAAAAAAiM'+
+'iomIggICA+AAAAAAAAAIiIUCA+CAgICAAAAAAAAAAQEBDwAAAAAAAAAAAAAAAQAAAA8BAQEBAQAAAAAAAAAAAAAB8QEBAQEAA'+
+'AAAAAAAAQEBAfAAAAAAAAAAAAAAAQEBAQ/xAQEBAQAAAAAAAAEAAAAAAAAAAAAAAAAAAAAP8A/wAAAAAAAAAAAAAAAAAAAAAA'+
+'/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAEBAQHxAQEBAQAAAAAAAAEBAQEPAQEBAQEAAAA'+
+'AAAABAQEBD/AAAAAAAAAAAAAAAQAAAA/xAQEBAQAAAAAAAAABAQEBAQEBAQEAAAAAAAABACCCCAIAgC/gAAAAAAAAAAgCAIAg'+
+'gggP4AAAAAAAAAAAAA/iQkJEQAAAAAAAAAAAACBP4Q/kCAAAAAAAAAAAAAHCIg+CB4pkAAAAAAAAAAAAAAABAAAAAAAAAAAAA'+
+'AAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAEAAAAAAAAAAAACQkJAAAAAAAAAAAAAAAAABISPxI/EhIAAAAAAAAAAAAEHyQfBJ8'+
+'EAAAAAAAAAAAAMLECBAgRoYAAAAAAAAAAABwiIhwioR6AAAAAAAAAAAAGBAgAAAAAAAAAAAAAAAAAAgQICAgEAgAAAAAAAAAA'+
+'AAgEAgICBAgAAAAAAAAAAAAAEQo/ihEAAAAAAAAAAAAAAAQEP4QEAAAAAAAAAAAAAAAAAAAADAgQAAAAAAAAAAAAAAA/gAAAA'+
+'AAAAAAAAAAAAAAAAAAMDAAAAAAAAAAAAACBAgQIECAAAAAAAAAAAAAOESCgoJEOAAAAAAAAAAAABAwUBAQEHwAAAAAAAAAAAB'+
+'4hAIcYID+AAAAAAAAAAAA/gQIHAKCfAAAAAAAAAAAAAgYKEj+CAgAAAAAAAAAAAD+gLzCAoJ8AAAAAAAAAAAAPEKAvMJCPAAA'+
+'AAAAAAAAAP4CBAgQIEAAAAAAAAAAAAB8goJ8goJ8AAAAAAAAAAAAeISGegKEeAAAAAAAAAAAAAAwMAAAMDAAAAAAAAAAAAAAM'+
+'DAAADAgQAAAAAAAAAAAAggggCAIAgAAAAAAAAAAAAAA/gD+AAAAAAAAAAAAAACAIAgCCCCAAAAAAAAAAAAAfIIMEBAAEAAAAA'+
+'AAAAAAAHyCipKcgHwAAAAAAAAAAAAQKESC/oKCAAAAAAAAAAAA/EJCfEJC/AAAAAAAAAAAADxCgICAQjwAAAAAAAAAAAD4REJ'+
+'CQkT4AAAAAAAAAAAA/o'+ /*                                                  */ 'CA+ICA/gAAAAAAAAAAA'+
+'P6AgPiAgIAAAAAAAAAA'+ /*                                                  */ 'AAA8QoCAjkI8AAAAAAA'+
+'AAAAAgoKC/oKCggAAAA'+ /*                                                  */ 'AAAAAAAHwQEBAQEHwAA'+
+'AAAAAAAAAAOBAQEBIR4'+ /*                                                  */ 'AAAAAAAAAAAAgoywwLC'+
+'MggAAAAAAAAAAAICAgI'+ /*                                                  */ 'CAgP4AAAAAAAAAAACCx'+
+'qqSgoKCAAAAAAAAAAAA'+ /*                                                  */ 'gsKikoqGggAAAAAAAAA'+
+'AAHyCgoKCgnwAAAAAAA'+ /*                                                  */ 'AAAAD8goL8gICAAAAAA'+
+'AAAAAAAfIKCgoqEegAA'+ /*                                                  */ 'AAAAAAAAAPyCgvyIhII'+
+'AAAAAAAAAAAB8goB8Ao'+ /*                                                  */ 'J8AAAAAAAAAAAA/hAQE'+
+'BAQEAAAAAAAAAAAAIKC'+ /*                                                  */ 'goKCgnwAAAAAAAAAAAC'+
+'CgkREKCgQAAAAAAAAAA'+ /*                                                  */ 'AAgoKCkpKqRAAAAAAAA'+
+'AAAAIJEKBAoRIIAAAAA'+ /*                                                  */ 'AAAAAACCRCgQEBAQAAA'+
+'AAAAAAAAA/gQIECBA/g'+ /*                                                  */ 'AAAAAAAAAAADwgICAgI'+
+'DwAAAAAAAAAAACAQCAQ'+ /*                                                  */ 'CAQCAAAAAAAAAAAAeAg'+
+'ICAgIeAAAAAAAAAAAAB'+ /*                                                  */ 'AoRIIAAAAAAAAAAAAAA'+
+'AAAAAAAAAD+AAAAAAAA'+ /*                                                  */ 'AAAAMBAIAAAAAAAAAAA'+
+'AAAAAAAAAfAJ+gn4AAA'+ /*                                                  */ 'AAAAAAAACAgLzCgsK8A'+
+'AAAAAAAAAAAAAA8QoBA'+ /*                                                  */ 'PgAAAAAAAAAAAAICeoa'+
+'ChnoAAAAAAAAAAAAAAH'+ /*                                                  */ 'yC/oB8AAAAAAAAAAAAH'+
+'CIg+CAgIAAAAAAAAAAA'+ /*                                                  */ 'AAACeoSEfASEeAAAAAA'+
+'AAACAgLzCgoKCAAAAAA'+ /*                                                  */ 'AAAAAAEAAwEBAQfAAAA'+
+'AAAAAAAAAQABAQEBISE'+ /*                                                  */ 'eAAAAAAAAACAgIiQ4Ii'+
+'CAAAAAAAAAAAAMBAQEB'+ /*                                                  */ 'AQOAAAAAAAAAAAAAAAx'+
+'KqSkoIAAAAAAAAAAAAA'+ /*                                                  */ 'ALzCgoKCAAAAAAAAAAA'+
+'AAAB8goKCfAAAAAAAAA'+ /*                                                  */ 'AAAAAAvMLCvICAgAAAA'+
+'AAAAAAAAHqGhnoCAgIA'+ /*                                                  */ 'AAAAAAAAAACcYkBAQAA'+
+'AAAAAAAAAAAAAfIB8Av'+ /*                                                  */ 'wAAAAAAAAAAAAgIPggI'+
+'CQYAAAAAAAAAAAAAACE'+ /*                                                  */ 'hISEegAAAAAAAAAAAAA'+
+'AgoJEKBAAAAAAAAAAAA'+ /*                                                  */ 'AAAIKCkqpEAAAAAAAAA'+
+'AAAAACESDBIhAAAAAAAAAAAAAAAhISMdASEeAAAAAAAAAAAAP4EGCD+AAAAAAAAAAAADhAQYBAQDgAAAAAAAAAAABAQEAAAEB'+
+'AQAAAAAAAAAADgEBAMEBDgAAAAAAAAAAAAYpKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' ;  let  src, bytes,
+ctx;  function  decode(str) { str  =  atob(str);  let  d  =  []; for  (let  char of  str) {  d.push(
+char.charCodeAt(0) ); } return( d ); } function getCharDataBytes(charCode) { let offset = charCode *
+16;  return(  [bytes[offset+15]].concat(  bytes.slice(  offset,  offset  +  9  )  )  );  }  function
+bytesToBinary(bytes) { return bytes.reduce( (acc, octet)=> { for (let i=7; i>=0;  i--)  {  acc.push(
+(octet  >> i) &  1 ); }  return( acc ); }, []); } function getRawCharData(charCode)  {  let bytes  =
+getCharDataBytes(charCode); return(  bytesToBinary( bytes  )  );  }  function  getCharData(charCode,
+dot_replication=false, dot_stretching=false) { let raw = getRawCharData(charCode); let out = []; let
+pbit  =  0; for  (let j=0;  j<10;  j++)  {  for  (let  i=0; i<8;  i++) {  let  bit  = raw[j*8+i]; if
+(dot_stretching && pbit) { out.push(1); } else { out.push(bit); } pbit  = bit; } if (dot_replication
+&&  pbit) { out.push(1,  1);  }  else { out.push(0, 0);  } pbit = 0;  } return( out  );  }  function
+drawChar(charCode,    x,     y,    height=10,    aspect=1,     spacing=0,     dot_replication=false,
+dot_stretching=false) {  let  ch =  getCharData(charCode, dot_replication, dot_stretching); for (let
+j=0; j<10;  j++) { for  (let i=0; i<10;  i++) { if  ( ch[j*10+i]  )  { ctx.fillStyle =  'royalblue';
+ctx.fillRect( x + i*height/10*aspect * (1+spacing), y + j*height/10 * (1+spacing), height/10*aspect,
+height/10);  }  }  }   }   function   drawText(text,   ox,   oy,   height=10,  aspect=1,  spacing=0,
+dot_replication=false, dot_stretching=false) { let  x = 0; let y = 0; for  (let i=0;  i<text.length;
+i++)  {  let  ch  = text.charCodeAt(i); if ( ch === 10 ) { x=0;  y++; continue; } drawChar( ch, ox +
+x*height*aspect   *   (1+spacing),  oy  +   y*height  *   (1+spacing),  height,   aspect,   spacing,
+dot_replication, dot_stretching); x++; } } (async function main() { bytes = decode(rom); src = await
+fetch('./index.rect.html').then(res => res.text());  let  canvas = document.querySelector('canvas');
+canvas.width  =  4000;  canvas.height  =  canvas.width *  23/16.5;  ctx  =  canvas.getContext('2d');
+ctx.fillStyle = 'white';  ctx.fillRect(0, 0,  canvas.width, canvas.height); drawText(src, 150,  120,
+40,     0.66,     false,    true);    })();     </script>    <canvas></canvas>    </body>    </html>
