@@ -36,7 +36,6 @@ console.log(text);
 console.log(count + ' characters');
 
 // get a section from the front of text that fits width
-// make it fit by inserting spaces if necessary
 function clipoffline(text, width) {
   words = text.split(' ');
   line = '';
@@ -146,6 +145,61 @@ function splitString(str, len) {
   return str;
 }
 
+// Insert newlines into text to wrap to specified width
+function wrapLine(text, width) {
+  text = text.replace(/\n/, ' '); // newlines are ignored
+  let wrapped = "";
+  let clip;
+  do {
+    clip = clipoffline(text, width)
+    wrapped += clip.line + '\n';
+    text = clip.rest;
+  } while (clip.rest.length > 0)
+  wrapped = wrapped.trim();
+  return wrapped;
+}
+
+function centerLine(text, width) {
+  text = text.replace(/\n/, ' '); // newlines are ignored
+  let add = width - text.length;
+  if (add <= 0) return text;
+  let left  = Math.floor(add / 2);
+  let right = width - text.length - left;
+  return ' '.repeat(left) + text + ' '.repeat(right);
+}
+
+function centerText(text, width) {
+  let lines = text.split('\n');
+  let centeredLines = [];
+  for (let line of lines) {
+    let wrapped  = wrapLine(line, width);
+    wrappedLines = wrapped.split('\n');
+    for (let line of wrappedLines) {
+      let centered = centerLine(line, width);
+      centeredLines.push(centered);
+    }
+  }
+  return centeredLines.join('\n');
+}
+
+function injectIntoWindow(lines, text) {
+  text = text.split('\n'); // split text into lines
+  let left = Math.floor( (width - window_width) / 2 );
+  let out = [];
+  for (let [i, line] of lines.entries()) {
+    let window_line = i - window_top;
+    let insert = text[window_line];
+    if (window_line < 0 || window_line >= window_height || insert === undefined) {
+      out.push(line);
+      continue;
+    }
+    insert = insert.slice(0, window_width); // limit to width
+    let newline = line.slice(0, left) + insert + line.slice(left + insert.length);
+    out.push(newline);
+  }
+  return out;
+}
+
 
 let lines = [];
 let line, fitted;
@@ -171,5 +225,14 @@ do {
   idx++;
   text = line.rest;
 } while (line.rest.length > 0);
+
+let txt = `
+12345678901234567890
+Hello
+This is a test text for centering, respecting newlines.
+Best
+Martin`;
+txt = centerText(txt, window_width);
+lines = injectIntoWindow(lines, txt);
 
 fs.writeFileSync(outname, lines.join('\n'));
