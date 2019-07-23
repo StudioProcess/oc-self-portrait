@@ -1,0 +1,7 @@
+
+Code-Selfie-Code
+
+This work consists of one page of printed JavaScript/HTML source text, which is executable in any modern browser. When run, the program generates and displays a rendering of its own source code, a self-portrait, in the form of a downloadable PNG image. This very image has been reproduced here. The program lays bare its inner workings, by producing its own human-readable representation.
+Through its self-referential nature, the work shows some of the fundamental properties of code, programmable machines and their relation to language and symbols.
+In order to communicate with machines, we need to use specially designed (programming) languages. Like any language, these use a set of symbols (an alphabet) which can be realized (“rendered”) in many different ways. 
+One of the first widespread ways of rendering latin characters for use by humans and computers alike was employed in the popular VT 100 Computer Terminal from 1978. In this work, we use the original VT 100 character generator algorithm and data, which has since become open source software.

@@ -1,6 +1,7 @@
 const width = 100;
-const inname = 'index.in.html'
+const inname = 'index.html'
 const outname = 'index.rect.html';
+const aboutname = 'about.txt'
 
 // window position
 const window_top    = 20;
@@ -226,12 +227,7 @@ do {
   text = line.rest;
 } while (line.rest.length > 0);
 
-let txt = `
-12345678901234567890
-Hello
-This is a test text for centering, respecting newlines.
-Best
-Martin`;
+let txt = fs.readFileSync(aboutname, {encoding:'utf-8'});
 txt = centerText(txt, window_width);
 lines = injectIntoWindow(lines, txt);
 
