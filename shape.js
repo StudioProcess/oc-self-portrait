@@ -1,9 +1,10 @@
-const width = 132;
+const width = 80;
+const inname = 'index.in.html'
 const outname = 'index.rect.html';
 
 let fs = require('fs');
 
-let text = fs.readFileSync('./index.html', {encoding:'utf-8'});
+let text = fs.readFileSync('./' + inname, {encoding:'utf-8'});
 // console.log(text);
 
 // trim
@@ -37,6 +38,13 @@ function clipoffline(text, width) {
     word = words[0];
     if (line.length == 0) {
       if (word.length > width) {
+        let split = splitString(word, width); // try to split
+        if (split !== word) { // got a split
+          let parts = split.split(' ');
+          line += parts[0];
+          words[0] = parts[1];
+          break;
+        }
         console.log('Warning: Can\'t fit word: ' + word);
         line += words.shift(); // Add it anyway
         break;
@@ -111,6 +119,25 @@ function stretch(line, width) {
     line += ' '.repeat(stretches[i] + 1) + words[i+1];
   }
   return line;
+}
+
+// Split js strings
+// 'AAA' -> 'A'+ 'AA'
+function splitString(str, len) {
+  let quote = '\'';
+  function checkStr() {
+    if (len < 4) return false; // can't split less then 4
+    if (str.length < 5) return false; // string is too short for splitting to make sense 
+    if (len >= str.length) return false; // wan't to split off too much
+    if (str[0] == '\'' && str[str.length-1] == '\'') return true;
+    if (str[0] ==  '"' && str[str.length-1] ==  '"') {
+      quote = '"';
+      return true;
+    }
+  }
+  if ( !checkStr() ) return str;
+  str = str.slice(0, len-2) + quote + '+ ' + quote + str.slice(len-2);
+  return str;
 }
 
 
