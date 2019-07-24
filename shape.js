@@ -1,6 +1,6 @@
 const width = 100;
-const inname = 'index.html'
-const outname = 'index.rect.html';
+const inname = 'index.in.html'
+const outname = 'index.html';
 const aboutname = 'about.txt'
 
 // window position
@@ -18,7 +18,7 @@ let text = fs.readFileSync('./' + inname, {encoding:'utf-8'});
 text = text.trim();
 
 // outname
-text = text.replace('index.html', outname);
+// text = text.replace('index.html', outname);
 
 // remove comments
 text = text.replace(/\/\/(.*)/g, '');
