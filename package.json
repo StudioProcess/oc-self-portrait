@@ -10,7 +10,8 @@
   "scripts": {
     "start": "browser-sync . --port 8080 --no-notify --files index.html app data",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "reinstall": "npm ci"
+    "reinstall": "npm ci",
+    "shape": "node shape"
   },
   "keywords": [],
   "author": "Process <contact@process.studio> (https://process.studio)",

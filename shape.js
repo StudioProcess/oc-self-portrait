@@ -1,3 +1,5 @@
+// Shape input file into a rectangle, with a window, and inject about text
+
 const width = 100;
 const inname = 'index.in.html'
 const outname = 'index.html';

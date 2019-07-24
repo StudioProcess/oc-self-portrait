@@ -1,7 +1,7 @@
-<!DOCTYPE html>  <html lang="en"> <head>  <meta  charset="UTF-8">  <title>oc-selfie</title>  <style>
+<!DOCTYPE  html>  <html  lang="en">  <head>  <meta charset="UTF-8"> <title>oc-selfie</title> <style>
 html, body { margin:0; padding:0; } body { display:flex; align-items:center; justify-content:center;
-height:100vh; background-color:white;  } canvas {  width:auto  !important;  height:90vh  !important;
-background-color:white; image-rendering:pixelated; } </style> </head> <body>  <script type="module">
+height:100vh;  background-color:white; }  canvas  {  width:auto !important;  height:90vh !important;
+background-color:white;  image-rendering:pixelated; } </style> </head> <body> <script type="module">
 let                                            font_rom                                            =
 'AAAAAAAAAAAAAAAAAAAAABA4fP58OBAAAAAAAAAAAACSRJJEkkSSAAAAAAAAAAAAiIj4iIg+CAgIAAAAAAAAAPCA4ICeEBwQE'+
 'AAAAAAAAAB4gIB4PCI8IiIAAAAAAAAAgICA+D4gPCAgAAAAAAAAADhERDgAAAAAAAAAAAAAAAAAEBD+EBD+AAAAAAAAAAAAiM'+
@@ -12,10 +12,10 @@ let                                            font_rom                         
 'gggP4AAAAAAAAAAAAA/iQkJEQAAAAAAAAAAAACBP4Q/kCAAAAAAAAAAAAAHCIg+CB4pkAAAAAAAAAAAAAAABAAAAAAAAAAAAA'+
 'AAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAEAAAAAAAAAAAACQkJAAAAAAAAAAAAAAAAABISPxI/EhIAAAAAAAAAAAAEHyQfBJ8'+
 'EAAAAAAAAAAAAMLECBA'+ /*                                                  */ 'gRoYAAAAAAAAAAABwiI'+
-'hwioR6AAAAAAAAAAAAG'+ /*                 Code-Selfie-Code                 */ 'BAgAAAAAAAAAAAAAAAA'+
+'hwioR6AAAAAAAAAAAAG'+ /*                  Self-portrait                   */ 'BAgAAAAAAAAAAAAAAAA'+
 'AAgQICAgEAgAAAAAAAA'+ /*                                                  */ 'AAAAgEAgICBAgAAAAAA'+
 'AAAAAAAEQo/ihEAAAAA'+ /*    This work consists of one page of printed     */ 'AAAAAAAAAAQEP4QEAAA'+
-'AAAAAAAAAAAAAAAAADA'+ /* JavaScript/HTML source text, which is executable */ 'gQAAAAAAAAAAAAAAA/g'+
+'AAAAAAAAAAAAAAAAADA'+ /* HTML/JavaScript source code, which is executable */ 'gQAAAAAAAAAAAAAAA/g'+
 'AAAAAAAAAAAAAAAAAAA'+ /*   in any modern browser. When run, the program   */ 'AAAMDAAAAAAAAAAAAAC'+
 'BAgQIECAAAAAAAAAAAA'+ /*  generates and displays a rendering of its own   */ 'AOESCgoJEOAAAAAAAAA'+
 'AAABAwUBAQEHwAAAAAA'+ /*  source code, a self-portrait, in the form of a  */ 'AAAAAB4hAIcYID+AAAA'+
@@ -48,28 +48,28 @@ let                                            font_rom                         
 'AAAAAAAB8goKCfAAAAAAAAAAAAAAAvMLCvICAgAAAAAAAAAAAAHqGhnoCAgIAAAAAAAAAAACcYkBAQAAAAAAAAAAAAAAAfIB8'+
 'AvwAAAAAAAAAAAAgIPggICQYAAAAAAAAAAAAAACEhISEegAAAAAAAAAAAAAAgoJEKBAAAAAAAAAAAAAAAIKCkqpEAAAAAAAAA'+
 'AAAAACESDBIhAAAAAAAAAAAAAAAhISMdASEeAAAAAAAAAAAAP4EGCD+AAAAAAAAAAAADhAQYBAQDgAAAAAAAAAAABAQEAAAEB'+
-'AQAAAAAAAAAADgEBAMEBDgAAAAAAAAAAAAYpKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=' ;  let src,  bytes,
-ctx;  function decode(str)  {  str  =  atob(str);  let  d  = [];  for  (let char of  str) {  d.push(
+'AQAAAAAAAAAADgEBAMEBDgAAAAAAAAAAAAYpKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='  ;  let src, bytes,
+ctx;  function decode(str)  {  str =  atob(str);  let d =  [];  for  (let  char  of  str)  { d.push(
 char.charCodeAt(0) ); } return( d ); } function getCharDataBytes(charCode) { let offset = charCode *
 16;  return(  [bytes[offset+15]].concat(  bytes.slice(  offset,  offset  +  9  )  )  );  }  function
-bytesToBinary(bytes) { return  bytes.reduce( (acc, octet)=> { for  (let i=7;  i>=0; i--) { acc.push(
-(octet >>  i) & 1 ); }  return( acc );  }, []);  }  function getRawCharData(charCode) { let bytes  =
-getCharDataBytes(charCode);  return(  bytesToBinary( bytes )  );  }  function  getCharData(charCode,
+bytesToBinary(bytes) { return bytes.reduce(  (acc, octet)=>  { for (let i=7;  i>=0; i--) { acc.push(
+(octet >> i) & 1 ); } return( acc  );  },  []); } function getRawCharData(charCode) {  let  bytes  =
+getCharDataBytes(charCode);  return( bytesToBinary(  bytes  )  );  } function  getCharData(charCode,
 dot_replication=false, dot_stretching=false) { let raw = getRawCharData(charCode); let out = []; let
-pbit  =  0; for (let j=0;  j<10;  j++)  {  for  (let  i=0;  i<8;  i++) { let  bit  =  raw[j*8+i]; if
-(dot_stretching && pbit) { out.push(1); } else { out.push(bit); } pbit =  bit; } if (dot_replication
-&& pbit)  { out.push(1, 1);  } else  {  out.push(0, 0);  } pbit  =  0; }  return( out );  } function
-drawChar(charCode,     x,    y,     height=10,    aspect=1,     spacing=0,    dot_replication=false,
-dot_stretching=false) { let ch  = getCharData(charCode, dot_replication,  dot_stretching); for  (let
-j=0;  j<10;  j++)  { for (let  i=0;  i<10;  i++)  {  if ( ch[j*10+i]  )  { ctx.fillStyle  = 'white';
+pbit  =  0;  for (let  j=0;  j<10; j++)  {  for  (let i=0;  i<8;  i++)  {  let bit = raw[j*8+i];  if
+(dot_stretching && pbit) { out.push(1); } else { out.push(bit); }  pbit = bit; } if (dot_replication
+&& pbit) { out.push(1,  1); } else  {  out.push(0,  0);  }  pbit = 0;  } return( out );  }  function
+drawChar(charCode,     x,     y,    height=10,     aspect=1,    spacing=0,    dot_replication=false,
+dot_stretching=false) { let ch =  getCharData(charCode, dot_replication,  dot_stretching); for  (let
+j=0; j<10;  j++)  {  for  (let i=0;  i<10;  i++)  { if ( ch[j*10+i]  ) {  ctx.fillStyle  =  'white';
 ctx.fillRect( x + i*height/10*aspect * (1+spacing), y + j*height/10 * (1+spacing), height/10*aspect,
-height/10);   }   }   }   }  function  drawText(text,   ox,  oy,  height=10,   aspect=1,  spacing=0,
-dot_replication=false, dot_stretching=false) { let x  = 0;  let y  = 0; for (let i=0; i<text.length;
-i++) { let ch = text.charCodeAt(i);  if ( ch  === 10 ) { x=0; y++;  continue;  } drawChar( ch,  ox +
-x*height*aspect  *  (1+spacing),  oy   +   y*height   *   (1+spacing),   height,  aspect,   spacing,
-dot_replication, dot_stretching); x++; } } function  topx(mm, ppi=600)  {  return( Math.floor(  mm /
-25.4  *  ppi  )  );  }   (async   function   main()  {  bytes  =  decode(font_rom);   src   =  await
-fetch('./').then(res => res.text());  let canvas = document.querySelector('canvas');  canvas.width =
-topx(230 +  10); canvas.height  =  topx(330  +  10); ctx = canvas.getContext('2d'); ctx.fillStyle  =
-'#009EE3'; ctx.fillRect(0, 0,  canvas.width, canvas.height); drawText(src, topx(14), topx(12),  100,
-0.5,     0,     false,    true);     })();    </script>     <canvas></canvas>    </body>     </html>
+height/10);  }   }  }   }  function  drawText(text,   ox,   oy,  height=10,   aspect=1,   spacing=0,
+dot_replication=false,  dot_stretching=false) { let  x = 0; let y  = 0; for (let i=0; i<text.length;
+i++) { let ch  =  text.charCodeAt(i); if ( ch === 10 ) { x=0;  y++; continue; } drawChar(  ch, ox  +
+x*height*aspect   *  (1+spacing),  oy  +   y*height  *   (1+spacing),   height,   aspect,   spacing,
+dot_replication, dot_stretching); x++; } } function topx(mm, ppi=600)  { return(  Math.floor(  mm  /
+25.4  *  ppi  )  );   }   (async  function  main()   {  bytes   =  decode(font_rom);  src   =  await
+fetch('./').then(res =>  res.text()); let  canvas = document.querySelector('canvas'); canvas.width =
+topx(230  +  10); canvas.height =  topx(330  + 10); ctx  = canvas.getContext('2d'); ctx.fillStyle  =
+'#009EE3';  ctx.fillRect(0, 0, canvas.width,  canvas.height); drawText(src, topx(14), topx(12), 100,
+0.5,    0,     false,     true);     })();    </script>     <canvas></canvas>     </body>    </html>
