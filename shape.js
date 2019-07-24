@@ -4,7 +4,7 @@ const outname = 'index.rect.html';
 const aboutname = 'about.txt'
 
 // window position
-const window_top    = 20;
+const window_top    = 13;
 const window_width  = 50;
 const window_height = 30;
 
@@ -183,7 +183,7 @@ function centerText(text, width) {
   return centeredLines.join('\n');
 }
 
-function injectIntoWindow(lines, text) {
+function injectIntoWindow(lines, text, margin_left = 0, margin_right = 0) {
   text = text.split('\n'); // split text into lines
   let left = Math.floor( (width - window_width) / 2 );
   let out = [];
@@ -194,8 +194,8 @@ function injectIntoWindow(lines, text) {
       out.push(line);
       continue;
     }
-    insert = insert.slice(0, window_width); // limit to width
-    let newline = line.slice(0, left) + insert + line.slice(left + insert.length);
+    insert = insert.slice(0, window_width - margin_left - margin_right); // limit to width
+    let newline = line.slice(0, left + margin_left) + insert + line.slice(left + margin_left + insert.length);
     out.push(newline);
   }
   return out;
@@ -228,7 +228,7 @@ do {
 } while (line.rest.length > 0);
 
 let txt = fs.readFileSync(aboutname, {encoding:'utf-8'});
-txt = centerText(txt, window_width);
-lines = injectIntoWindow(lines, txt);
+txt = centerText(txt, window_width - 2);
+lines = injectIntoWindow(lines, txt, 1, 1);
 
 fs.writeFileSync(outname, lines.join('\n'));
