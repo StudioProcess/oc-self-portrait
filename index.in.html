@@ -94,16 +94,17 @@
       }
     }
 
-    function topx(mm, ppi=600) { return( Math.floor( mm / 25.4 * ppi ) ); }
-
     (async function main() {
       bytes = decode(font_rom);
       src = await fetch('./').then(res => res.text());
       let canvas = document.querySelector('canvas');
-      canvas.width = topx(230 + 10);
-      canvas.height = topx(330 + 10);
+      canvas.width = Math.floor( 24 / 2.54 * 600 );
+      canvas.height = Math.floor( 34 / 2.54 * 600 );
       ctx = canvas.getContext('2d'); ctx.fillStyle = '#009EE3'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-      drawText(src, topx(14), topx(12), 100, 0.5, 0, false, true);
+      drawText(src, 
+        Math.floor((canvas.width - 100 * 50) / 2),
+        Math.floor((canvas.height - 75 * 100) / 2),
+        100, 0.5, 0, false, true);
     })();
   </script>
   <canvas></canvas>
