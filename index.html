@@ -1,75 +1,102 @@
-<!DOCTYPE  html>  <html lang="en"> <head> <meta  charset="UTF-8">  <title>oc-selfie</title>  <style>
-html, body { margin:0; padding:0; } body { display:flex; align-items:center; justify-content:center;
-height:100vh; background-color:white;  }  canvas  { width:auto  !important;  height:90vh !important;
-background-color:white; image-rendering:pixelated; } </style> </head> <body>  <script type="module">
-let                                            font_rom                                            =
-'AAAAAAAAAAAAAAAAAAAAABA4fP58OBAAAAAAAAAAAACSRJJEkkSSAAAAAAAAAAAAiIj4iIg+CAgIAAAAAAAAAPCA4ICeEBwQE'+
-'AAAAAAAAAB4gIB4PCI8IiIAAAAAAAAAgICA+D4gPCAgAAAAAAAAADhERDgAAAAAAAAAAAAAAAAAEBD+EBD+AAAAAAAAAAAAiM'+
-'iomIggICA+AAAAAAAAAIiIUCA+CAgICAAAAAAAAAAQEBDwAAAAAAAAAAAAAAAQAAAA8BAQEBAQAAAAAAAAAAAAAB8QEBAQEAA'+
-'AAAAAAAAQEBAfAAAAAAAAAAAAAAAQEBAQ/xAQEBAQAAAAAAAAEAAAAAAAAAAAAAAAAAAAAP8A/wAAAAAAAAAAAAAAAAAAAAAA'+
-'/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAEBAQHxAQEBAQAAAAAAAAEBAQEPAQEBAQEAAAA'+
-'AAAABAQEBD/AAAAAAAAAAAAAAAQAAAA/xAQEBAQAAAAAAAAABAQEBAQEBAQEAAAAAAAABACCCCAIAgC/gAAAAAAAAAAgCAIAg'+
-'gggP4AAAAAAAAAAAAA/iQkJEQAAAAAAAAAAAACBP4Q/kCAAAAAAAAAAAAAHCIg+CB4pkAAAAAAAAAAAAAAABAAAAAAAAAAAAA'+
-'AAAAAAAAAAAAAAAAAAAAAAAAAEBAQEBAAEAAAAAAAAAAAACQkJAAAAAAAAAAAAAAAAABISPxI/EhIAAAAAAAAAAAAEHyQfBJ8'+
-'EAAAAAAAAAAAAMLECBA'+ /*                                                  */ 'gRoYAAAAAAAAAAABwiI'+
-'hwioR6AAAAAAAAAAAAG'+ /*                  Self-portrait                   */ 'BAgAAAAAAAAAAAAAAAA'+
-'AAgQICAgEAgAAAAAAAA'+ /*                                                  */ 'AAAAgEAgICBAgAAAAAA'+
-'AAAAAAAEQo/ihEAAAAA'+ /*    This work consists of one page of printed     */ 'AAAAAAAAAAQEP4QEAAA'+
-'AAAAAAAAAAAAAAAAADA'+ /* HTML/JavaScript source code, which is executable */ 'gQAAAAAAAAAAAAAAA/g'+
-'AAAAAAAAAAAAAAAAAAA'+ /*   in any modern browser. When run, the program   */ 'AAAMDAAAAAAAAAAAAAC'+
-'BAgQIECAAAAAAAAAAAA'+ /*  generates and displays a rendering of its own   */ 'AOESCgoJEOAAAAAAAAA'+
-'AAABAwUBAQEHwAAAAAA'+ /*  source code, a self-portrait, in the form of a  */ 'AAAAAB4hAIcYID+AAAA'+
-'AAAAAAAA/gQIHAKCfAA'+ /* downloadable PNG image. This very image has been */ 'AAAAAAAAAAAgYKEj+CA'+
-'gAAAAAAAAAAAD+gLzCA'+ /* reproduced here. The program lays bare its inner */ 'oJ8AAAAAAAAAAAAPEKA'+
-'vMJCPAAAAAAAAAAAAP4'+ /*  workings, by producing its own human-readable   */ 'CBAgQIEAAAAAAAAAAAA'+
-'B8goJ8goJ8AAAAAAAAA'+ /*                 representation.                  */ 'AAAeISGegKEeAAAAAAA'+
-'AAAAAAAwMAAAMDAAAAA'+ /*  Through its self-referential nature, the work   */ 'AAAAAAAAAMDAAADAgQA'+
-'AAAAAAAAAAAggggCAIA'+ /*   shows some of the fundamental properties of    */ 'gAAAAAAAAAAAAAA/gD+'+
-'AAAAAAAAAAAAAACAIAg'+ /*  code, programmable machines and their relation  */ 'CCCCAAAAAAAAAAAAAfI'+
-'IMEBAAEAAAAAAAAAAAA'+ /*             to language and symbols.             */ 'HyCipKcgHwAAAAAAAAA'+
-'AAAQKESC/oKCAAAAAAA'+ /*  In order to communicate with machines, we need  */ 'AAAAA/EJCfEJC/AAAAA'+
-'AAAAAAADxCgICAQjwAA'+ /*     to use specially designed (programming)      */ 'AAAAAAAAAD4REJCQkT4'+
-'AAAAAAAAAAAA/oCA+IC'+ /* languages. Like any language, these use a set of */ 'A/gAAAAAAAAAAAP6AgP'+
-'iAgIAAAAAAAAAAAAA8Q'+ /*   symbols (an alphabet) which can be realized    */ 'oCAjkI8AAAAAAAAAAAA'+
-'goKC/oKCggAAAAAAAAA'+ /*       ("rendered") in many different ways.       */ 'AAHwQEBAQEHwAAAAAAA'+
-'AAAAAOBAQEBIR4AAAAA'+ /*  One of the first widespread ways of rendering   */ 'AAAAAAAgoywwLCMggAA'+
-'AAAAAAAAAICAgICAgP4'+ /* latin characters for use by humans and computers */ 'AAAAAAAAAAACCxqqSgo'+
-'KCAAAAAAAAAAAAgsKik'+ /*     alike was employed in the popular VT 100     */ 'oqGggAAAAAAAAAAAHyC'+
-'goKCgnwAAAAAAAAAAAD'+ /*  Computer Terminal from 1978. In this work, we   */ '8goL8gICAAAAAAAAAAA'+
-'AAfIKCgoqEegAAAAAAA'+ /*   use the original VT 100 character generator    */ 'AAAAPyCgvyIhIIAAAAA'+
-'AAAAAAB8goB8AoJ8AAA'+ /* algorithm and data, which has since become open  */ 'AAAAAAAAA/hAQEBAQEA'+
-'AAAAAAAAAAAIKCgoKCg'+ /*                 source software.                 */ 'nwAAAAAAAAAAACCgkRE'+
-'KCgQAAAAAAAAAAAAgoK'+ /*                                                  */ 'CkpKqRAAAAAAAAAAAAI'+
-'JEKBAoRIIAAAAAAAAAAACCRCgQEBAQAAAAAAAAAAAA/gQIECBA/gAAAAAAAAAAADwgICAgIDwAAAAAAAAAAACAQCAQCAQCAAA'+
-'AAAAAAAAAeAgICAgIeAAAAAAAAAAAABAoRIIAAAAAAAAAAAAAAAAAAAAAAAD+AAAAAAAAAAAAMBAIAAAAAAAAAAAAAAAAAAAA'+
-'fAJ+gn4AAAAAAAAAAACAgLzCgsK8AAAAAAAAAAAAAAA8QoBAPgAAAAAAAAAAAAICeoaChnoAAAAAAAAAAAAAAHyC/oB8AAAAA'+
-'AAAAAAAHCIg+CAgIAAAAAAAAAAAAAACeoSEfASEeAAAAAAAAACAgLzCgoKCAAAAAAAAAAAAEAAwEBAQfAAAAAAAAAAAAAQABA'+
-'QEBISEeAAAAAAAAACAgIiQ4IiCAAAAAAAAAAAAMBAQEBAQOAAAAAAAAAAAAAAAxKqSkoIAAAAAAAAAAAAAALzCgoKCAAAAAAA'+
-'AAAAAAAB8goKCfAAAAAAAAAAAAAAAvMLCvICAgAAAAAAAAAAAAHqGhnoCAgIAAAAAAAAAAACcYkBAQAAAAAAAAAAAAAAAfIB8'+
-'AvwAAAAAAAAAAAAgIPggICQYAAAAAAAAAAAAAACEhISEegAAAAAAAAAAAAAAgoJEKBAAAAAAAAAAAAAAAIKCkqpEAAAAAAAAA'+
-'AAAAACESDBIhAAAAAAAAAAAAAAAhISMdASEeAAAAAAAAAAAAP4EGCD+AAAAAAAAAAAADhAQYBAQDgAAAAAAAAAAABAQEAAAEB'+
-'AQAAAAAAAAAADgEBAMEBDgAAAAAAAAAAAAYpKMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='  ; let src,  bytes,
-ctx;  function decode(str) {  str = atob(str);  let  d  =  []; for  (let  char  of  str)  {  d.push(
-char.charCodeAt(0) ); } return( d ); } function getCharDataBytes(charCode) { let offset = charCode *
-16;  return(  [bytes[offset+15]].concat(  bytes.slice(  offset,  offset  +  9  )  )  );  }  function
-bytesToBinary(bytes) { return bytes.reduce(  (acc, octet)=> { for (let i=7;  i>=0; i--) {  acc.push(
-(octet >> i) & 1  ); } return(  acc );  },  []); } function getRawCharData(charCode) {  let bytes  =
-getCharDataBytes(charCode);  return( bytesToBinary(  bytes  ) );  }  function  getCharData(charCode,
-dot_replication=false, dot_stretching=false) { let raw = getRawCharData(charCode); let out = []; let
-pbit  =  0; for (let  j=0; j<10;  j++)  {  for  (let i=0;  i<8;  i++) {  let  bit =  raw[j*8+i];  if
-(dot_stretching && pbit) { out.push(1); }  else { out.push(bit); } pbit = bit; } if (dot_replication
-&& pbit)  { out.push(1,  1); }  else  {  out.push(0,  0);  } pbit = 0; }  return( out );  } function
-drawChar(charCode,    x,     y,     height=10,    aspect=1,     spacing=0,    dot_replication=false,
-dot_stretching=false) { let ch = getCharData(charCode,  dot_replication,  dot_stretching); for  (let
-j=0;  j<10;  j++) {  for  (let  i=0;  i<10;  i++)  { if  ( ch[j*10+i]  )  { ctx.fillStyle = 'white';
-ctx.fillRect( x + i*height/10*aspect * (1+spacing), y + j*height/10 * (1+spacing), height/10*aspect,
-height/10);   }   }   }  }   function  drawText(text,  ox,   oy,   height=10,  aspect=1,  spacing=0,
-dot_replication=false, dot_stretching=false) { let x =  0; let y = 0; for (let  i=0;  i<text.length;
-i++) { let ch  = text.charCodeAt(i);  if ( ch === 10 )  { x=0;  y++; continue;  } drawChar( ch, ox +
-x*height*aspect   *   (1+spacing),   oy   +  y*height  *  (1+spacing),   height,   aspect,  spacing,
-dot_replication, dot_stretching);  x++; } } (async function main() { bytes = decode(font_rom); src =
-await  fetch('./').then(res   =>  res.text());  let   canvas   =   document.querySelector('canvas');
-canvas.width = Math.floor( 24  / 2.54 * 600 ); canvas.height = Math.floor( 34 / 2.54 * 600  ); ctx =
-canvas.getContext('2d'); ctx.fillStyle = '#009EE3'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-drawText(src, Math.floor((canvas.width - 100 * 50) / 2), Math.floor((canvas.height - 75 * 100) / 2),
-100,    0.5,   0,   false,    true);    })();   </script>    <canvas></canvas>    </body>    </html>
+<!DOCTYPE   html>   <html   lang="en">   <head>   <meta   charset="UTF-8">
+<title>oc-selfie</title> <style> html, body  { margin:0; padding:0; } body
+{ display:flex; align-items:center; justify-content:center;  height:100vh;
+background-color:white;  }  canvas  {  width:auto !important;  height:90vh
+!important; background-color:white;  image-rendering:pixelated; } </style>
+</head> <body> <canvas></canvas> <script>  let src,  bytes,  ctx; function
+decode(str) { str = atob(str); let d = []; for (let char of str) { d.push(
+char.charCodeAt(0) ); } return( d ); } function getCharDataBytes(charCode)
+{   let  offset  =  charCode  *  16;   return(  [bytes[offset+15]].concat(
+bytes.slice( offset,  offset + 9 ) ) ); } function bytesToBinary(bytes)  {
+return bytes.reduce( (acc, octet)=> { for (let i=7; i>=0; i--) { acc.push(
+(octet   >>   i)   &   1   );  }  return(  acc  );   },  []);  }  function
+getRawCharData(charCode) { let bytes = getCharDataBytes(charCode); return(
+bytesToBinary(    bytes    )    );   }    function   getCharData(charCode,
+dot_replication=false,     dot_stretching=false)     {    let    raw     =
+getRawCharData(charCode); let out = []; let pbit = 0;  for (let j=0; j<10;
+j++) { for (let i=0; i<8; i++) { let bit = raw[j*8+i];  if (dot_stretching
+&&  pbit)  { out.push(1);  }  else { out.push(bit);  } pbit =  bit;  }  if
+(dot_replication  && pbit)  { out.push(1, 1); } else {  out.push(0, 0);  }
+pbit = 0; } return( out ); } function drawChar(charCode, x,  y, height=10,
+aspect=1, spacing=0, dot_replication=false, dot_stretching=false) { let ch
+= getCharData(charCode,  dot_replication, dot_stretching);  for  (let j=0;
+j<10; j++) { for  (let i=0; i<10; i++) { if ( ch[j*10+i] ) { ctx.fillStyle
+=  'white';  ctx.fillRect(  x  +  i*height/10*aspect *  (1+spacing),  y  +
+j*height/10 * (1+spacing), height/10*aspect, height/10); }  } } } function
+drawText(text,     ox,     oy,     height=10,     aspect=1,     spacing=0,
+dot_replication=false,       dot_stretching=false,       letter_spacing=0,
+line_spacing=0) { let x = 0; let y = 0; for (let i=0; i<text.length;  i++)
+{ let ch  = text.charCodeAt(i);  if ( ch === 10 ) { x=0; y++; continue;  }
+drawChar( ch, ox + x*height*aspect * (1+spacing)  * (1+letter_spacing), oy
++ y*height * (1+spacing)  *  (1+line_spacing),  height,  aspect,  spacing,
+dot_replication,   dot_stretching);   x++;    }   }   const   font_rom   =
+'AAAAAAAAAAAAAAAAAAAAABA4fP58OBAAAAAAAAAAAACSRJJEkkSSAAAAAAAAAAAAiIj4iIg'+
+'+CAgIAAAAAAAAAPCA4ICeEBwQEAAAAAAAAAB4gIB4PCI8IiIAAAAAAAAAgICA+D4gPCAgAA'+
+'AAAAAAADhERDgAAAAAAAAAAAAAAAAAEBD+EBD+AAAAAAAAAAAAiMiomIggICA+AAAAAAAAA'+
+'IiIUCA+CAgICAAAAAAAAAAQEBDwAAAAAAAAAAAAAAAQAAAA8BAQEBAQAAAAAAAAAAAAAB8Q'+
+'EBAQEAAAAAAAAAAQEBAfAAAAAAAAAAAAAAAQEBAQ/xAQEBAQAAAAAAAAEAAAAAAAAAAAAAA'+
+'AAAAAAP8A/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAAAAAAAAAAAA/wAAAAAAAAAAAA'+
+'AAAAAAAAAA/wAAAAAAAAAAEBAQHxAQEBAQAAAAAAAAEBAQEPAQEBAQEAAAAAAAABAQEBD/A'+
+'AAAAAAAAAAAAAAQAAAA/xAQEBAQAAAAAAAAABAQEBAQEBAQEAAAAAAAABACCCCAIAgC/gAA'+
+'AAAAAAAAgCAIAggggP4AAAAAAAAAAAAA/iQkJEQAAAAAAAAAAAACBP4Q/kCAAAAAAAAAAAA'+
+'AHCIg+CB4pkAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEBAQEB'+
+'AAEAAAAAAAAAAAACQkJAAAAAAAAAAAAAAAAABISPxI/EhIAAAAAAAAAAAAEHyQfBJ8EAAAA'+
+'AAAAAAAAMLECBAgRoYAAAAAAAAAAABwiIhwioR6AAAAAAAAAAAAGBAgAAAAAAAAAAAAAAAA'+
+'AAgQICAgEAgAAAAAAAAAAAAgEAgICBAgAAAAAAAAAAAAAEQo/ihEAAAAAAAAAAAAAAAQEP4'+
+'QEAAAAAAAAAAAAAAAAAAAADAgQAAAAAAAAAAAAAAA/gAAAAAAAAAAAAAAAAAAAAAAMDAAAA'+
+'AAAAAAAAACBAgQIECAAAAAAAAAAAAAOESCgoJEOAAAAAAAAAAAABAwUBAQEHwAAAAAAAAAA'+
+'AB4hAIcYID+AAAAAAAAAAAA/gQIHAKCfAAAAAAAAAAAAAgYKEj+CAgAAAAAAAAAAAD+gLzC'+
+'AoJ8AAAAAAAAAAAAPEKAvMJCPAAAAAAAAAAAAP4CBAgQIEAAAAAAAAAAAAB8goJ8goJ8AAA'+
+'AAAAAAAAAeISGegKEeAAAAAAAAAAAAAAwMAAAMDAAAAAAAAAAAAAAMDAAADAgQAAAAAAAAA'+
+'AAAggggCAIAgAAAAAAAAAAAAAA/gD+AAAAAAAAAAAAAACAIAgCCCCAAAAAAAAAAAAAfIIME'+
+'BAAEAAAAAAAAAAAAHyCipKcgHwAAAAAAAAAAAAQKESC/oKCAAAAAAAAAAAA/EJCfEJC/AAA'+
+'AAAAAAAAADxCgICAQjwAAAAAAAAAAAD4REJCQkT4AAAAAAAAAAAA/oCA+ICA/gAAAAAAAAA'+
+'AAP6AgPiAgIAAAAAAAAAAAAA8QoCAjkI8AAAAAAAAAAAAgoKC/oKCggAAAAAAAAAAAHwQEB'+
+'AQEHwAAAAAAAAAAAAOBAQEBIR4AAAAAAAAAAAAgoywwLCMggAAAAAAAAAAAICAgICAgP4AA'+
+'AAAAAAAAACCxqqSgoKCAAAAAAAAAAAAgsKikoqGggAAAAAAAAAAAHyCgoKCgnwAAAAAAAAA'+
+'AAD8goL8gICAAAAAAAAAAAAAfIKCgoqEegAAAAAAAAAAAPyCgvyIhIIAAAAAAAAAAAB8goB'+
+'8AoJ8AAAAAAAAAAAA/hAQEBAQEAAAAAAAAAAAAIKCgoKCgnwAAAAAAAAAAACCgkREKCgQAA'+
+'AAAAAAAAAAgoKCkpKqRAAAAAAAAAAAAIJEKBAoRIIAAAAAAAAAAACCRCgQEBAQAAAAAAAAA'+
+'AAA/gQIECBA/gAAAAAAAAAAADwgICAgIDwAAAAAAAAAAACAQCAQCAQCAAAAAAAAAAAAeAgI'+
+'CAgIeA'+ /*                                                  */ 'AAAAAA'+
+'AAAAAB'+ /*                  Self-Portrait                   */ 'AoRIIA'+
+'AAAAAA'+ /*                                                  */ 'AAAAAA'+
+'AAAAAA'+ /*    This work consists of one page of printed     */ 'AAAAD+'+
+'AAAAAA'+ /* HTML/JavaScript source code, which is executable */ 'AAAAAA'+
+'MBAIAA'+ /*   in any modern browser. When run, the program   */ 'AAAAAA'+
+'AAAAAA'+ /*  generates and displays a rendering of its own   */ 'AAAAAA'+
+'fAJ+gn'+ /*  source code, a self-portrait, in the form of a  */ '4AAAAA'+
+'AAAAAA'+ /*  downloadable PNG image. This is the image that  */ 'CAgLzC'+
+'gsK8AA'+ /*  is reproduced here. The program lays bare its   */ 'AAAAAA'+
+'AAAAAA'+ /*       inner workings by producing its own        */ 'A8QoBA'+
+'PgAAAA'+ /*          human-readable representation.          */ 'AAAAAA'+
+'AAICeo'+ /*  Through its self-referential nature, the work   */ 'aChnoA'+
+'AAAAAA'+ /*   shows some of the fundamental properties of    */ 'AAAAAA'+
+'AHyC/o'+ /* code, programmable machines, and their relation  */ 'B8AAAA'+
+'AAAAAA'+ /*             to language and symbols.             */ 'AAHCIg'+
+'+CAgIA'+ /*  In order to communicate with machines, we need  */ 'AAAAAA'+
+'AAAAAA'+ /*     to use specially designed (programming)      */ 'ACeoSE'+
+'fASEeA'+ /* languages. Like any language, these use a set of */ 'AAAAAA'+
+'AACAgL'+ /*   symbols (an alphabet) which can be realized    */ 'zCgoKC'+
+'AAAAAA'+ /*       ("rendered") in many different ways.       */ 'AAAAAA'+
+'EAAwEB'+ /*  One of the first widespread ways of rendering   */ 'AQfAAA'+
+'AAAAAA'+ /* Roman characters for use by humans and computers */ 'AAAAQA'+
+'BAQEBI'+ /*     alike was employed by the popular VT 100     */ 'SEeAAA'+
+'AAAAAA'+ /*  Computer Terminal from 1978. In this work, we   */ 'CAgIiQ'+
+'4IiCAA'+ /*   use the original VT 100 character generator    */ 'AAAAAA'+
+'AAAAMB'+ /* algorithm and data, which has since become open  */ 'AQEBAQ'+
+'OAAAAA'+ /*                 source software.                 */ 'AAAAAA'+
+'AAAAxK'+ /*                                                  */ 'qSkoIA'+
+'AAAAAAAAAAAAALzCgoKCAAAAAAAAAAAAAAB8goKCfAAAAAAAAAAAAAAAvMLCvICAgAAAAAA'+
+'AAAAAAHqGhnoCAgIAAAAAAAAAAACcYkBAQAAAAAAAAAAAAAAAfIB8AvwAAAAAAAAAAAAgIP'+
+'ggICQYAAAAAAAAAAAAAACEhISEegAAAAAAAAAAAAAAgoJEKBAAAAAAAAAAAAAAAIKCkqpEA'+
+'AAAAAAAAAAAAACESDBIhAAAAAAAAAAAAAAAhISMdASEeAAAAAAAAAAAAP4EGCD+AAAAAAAA'+
+'AAAADhAQYBAQDgAAAAAAAAAAABAQEAAAEBAQAAAAAAAAAADgEBAMEBDgAAAAAAAAAAAAYpK'+
+'MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA='  ;  (async  function main()  {
+bytes = decode(font_rom); src = await fetch('./').then(res => res.text());
+let canvas = document.querySelector('canvas'); canvas.width  = Math.floor(
+33  / 2.54  * 600 ); canvas.height =  Math.floor( 46 / 2.54 * 600 ); ctx =
+canvas.getContext('2d');  ctx.fillStyle  = '#009EE3';  ctx.fillRect(0,  0,
+canvas.width,  canvas.height);  drawText(src,  Math.floor((canvas.width  -
+73.5 * 100) / 2), Math.floor((canvas.height - 101.5 * 100) / 2), 50, 1, 0,
+false,     true,    1,    1);    })();    </script>    </body>     </html>

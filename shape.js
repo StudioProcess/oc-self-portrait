@@ -1,12 +1,12 @@
 // Shape input file into a rectangle, with a window, and inject about text
 
-const width = 100;
+const width = 74;
 const inname = 'index.in.html'
 const outname = 'index.html';
 const aboutname = 'about.txt'
 
 // window position
-const window_top    = 13;
+const window_top    = 60;
 const window_width  = 50;
 const window_height = 30;
 
